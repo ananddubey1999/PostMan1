@@ -1,0 +1,64 @@
+name: Run Postman Collection
+
+on:
+  push:
+    branches:
+      - main  # Adjust to your main branch name
+
+jobs:
+  run_postman_collection:
+    runs-on: ubuntu-latest  # Use the desired runner environment
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      #- name: Create dir
+      #  run: |
+      #    mkdir TestArtifacts
+
+ 
+         # this is only for setup the Node.js.    
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14  # Use the desired Node.js version
+
+   
+         # this is the dependencies that we want to install in yml.
+      - name: Install dependencies  
+        run: |
+         npm install -g newman  # Install Newman globally
+         npm install -g newman-reporter-slackreporter
+         npm install -g newman-reporter-htmlextra
+        
+        # this is to run your Postman Collection with reporter htmlextra where.
+        # htmlextra cli,json,html---> it means that file is in cli,json and html we can use here.
+        # --reporter-htmlextra-export htmlreport.html ----> it means that here we using htmlextra in .html file only.
+      - name: Run Postman Collection
+        run: |
+          dir
+          newman run Booking_Api.postman_collection.json -r htmlextra cli,json,html --reporter-htmlextra-export htmlreport.html
+          dir
+      #- name: Change dir
+      #  run: |
+      #    cd TestArtifacts
+      #    dir
+
+       # this command is for uploading the file htmlreport.html which is in the root file
+       # Upload the reports to htmlreport.html which is in the root file
+      - name: Output the result
+        uses: actions/upload-artifact@v2
+        with:
+          name: Reports
+          path: htmlreport.html
+          # if-no-files-found: error
+          
+
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "ananddubey1999"
+          git config --global user.email "dubeyanand7379@gmail.com"
+          git add htmlreport.html
+          git commit -m "Add Newman HTML report"
+          git push
