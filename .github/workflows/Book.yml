@@ -61,4 +61,4 @@ jobs:
           git config --global user.email "dubeyanand7379@gmail.com"
           git add htmlreport.html
           git commit -m "Add Newman HTML report"
-          git git push https://github.com/ananddubey1999/PostMan1.git HEAD:main
+          git push https://github.com/ananddubey1999/PostMan1.git HEAD:main
