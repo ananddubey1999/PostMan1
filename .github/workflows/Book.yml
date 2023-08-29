@@ -59,6 +59,7 @@ jobs:
         run: |
           git config --global user.name "ananddubey1999"
           git config --global user.email "dubeyanand7379@gmail.com"
+          git remote add origin https://github.com/ananddubey1999/PostMan1.git
           git add htmlreport.html
           git commit -m "Add Newman HTML report" 
           git push 
